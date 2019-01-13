@@ -19,7 +19,6 @@ class MainActivity: AppCompatActivity(), SensorEventListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         this.setContentView(R.layout.activity_main)
-        Log.d("stupid", "hey")
         val sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
         val accelerometer: Sensor = sensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION)
         val gravitySensor: Sensor = sensorManager.getDefaultSensor(Sensor.TYPE_GRAVITY)
@@ -29,28 +28,24 @@ class MainActivity: AppCompatActivity(), SensorEventListener {
     }
 
     // Implement SensorEventListener interface
-    override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
-//        Log.i("stupid", "Accuracy changed.")
-    }
-
+    override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {}
     override fun onSensorChanged(event: SensorEvent?) {
         event?.let {
             val sensor:Sensor = it.sensor
             when(sensor.type) {
-                Sensor.TYPE_LINEAR_ACCELERATION -> acceleration = it.values
-                Sensor.TYPE_GRAVITY -> vertUnitVec = it.values.map { v -> (v / 9.81).toFloat() }.toFloatArray()
+                Sensor.TYPE_LINEAR_ACCELERATION -> this.acceleration = it.values
+                Sensor.TYPE_GRAVITY -> this.vertUnitVec = it.values.map { v -> (v / 9.81).toFloat() }.toFloatArray()
             }
         }
 
-        val curAcc: Float = vertUnitVec[0] * acceleration[0] + vertUnitVec[1] * acceleration[1]
-            + vertUnitVec[2] * acceleration[2]
-//        Log.i("stupid", "Acc: $curAcc")
-        if (curAcc.absoluteValue < 0.1) return
-        if (prevAcc <= 0 && curAcc > 0) {
-            textView.text = "위"
-            prevAcc = curAcc
-        } else if (prevAcc >= 0 && curAcc < 0) {
-            textView.text = "아래"
+        val curAcc: Float = vertUnitVec[0] * acceleration[0] + vertUnitVec[1] * acceleration[1] + vertUnitVec[2] * acceleration[2]
+        Log.i("acceleration", "$curAcc")
+        if (curAcc.absoluteValue > 3.0) { // Threshold??
+            if (prevAcc >= 0 && curAcc < 0) {
+                textView.text = "위"
+            } else if (prevAcc <= 0 && curAcc > 0) {
+                textView.text = "아래"
+            }
             prevAcc = curAcc
         }
     }
