@@ -14,4 +14,10 @@ class MainActivity: AppCompatActivity() {
         }
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        Intent(this, SensorService::class.java).also {
+            stopService(it)
+        }
+    }
 }
