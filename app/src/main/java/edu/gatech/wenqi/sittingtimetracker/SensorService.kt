@@ -9,6 +9,7 @@ import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.os.IBinder
+import android.support.v4.content.LocalBroadcastManager
 import android.util.Log
 import kotlin.math.absoluteValue
 
@@ -65,12 +66,15 @@ class SensorService : Service(), SensorEventListener {
 
         val curAcc: Float = vertUnitVec[0] * acceleration[0] + vertUnitVec[1] * acceleration[1] + vertUnitVec[2] * acceleration[2]
         if (curAcc.absoluteValue > 3.0) { // Threshold??
-            Log.i("acceleration", "$curAcc")
-            // TODO: SEND MESSAGE TO ACTIVITY
+            val intent = Intent().apply {
+                action = "MY_ACTION"
+            }
             if (prevAcc >= 0 && curAcc < 0) {
-//                textView.text = "위"
+                intent.putExtra("dir", "위")
+                LocalBroadcastManager.getInstance(this).sendBroadcast(intent)
             } else if (prevAcc <= 0 && curAcc > 0) {
-//                textView.text = "아래"
+                intent.putExtra("dir", "아래")
+                LocalBroadcastManager.getInstance(this).sendBroadcast(intent)
             }
             prevAcc = curAcc
         }
