@@ -49,7 +49,7 @@ class LoginFragment : Fragment() {
             }""".trimIndent()), Response.Listener { json ->
                 val token = json["token"] as String
                 Log.i("TEST", token)
-                (activity as MainActivity).onLoginSuccess()
+                (activity as MainActivity).onLoginSuccess(token)
             }, Response.ErrorListener { err ->
                 Log.d("TEST", "Status: ${err.networkResponse.statusCode}")
                 Toast.makeText(context, "Login failed.", Toast.LENGTH_SHORT).show()

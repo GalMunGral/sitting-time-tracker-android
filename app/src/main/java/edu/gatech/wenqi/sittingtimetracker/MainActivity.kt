@@ -12,6 +12,7 @@ import com.android.volley.toolbox.Volley
 class MainActivity: FragmentActivity() {
 
     lateinit var requestQueue: RequestQueue
+    var token: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,7 +37,8 @@ class MainActivity: FragmentActivity() {
         }
     }
 
-    fun onLoginSuccess() {
+    fun onLoginSuccess(token: String) {
+        this.token = token
         val testFragment = TestFragment()
         val transaction = supportFragmentManager.beginTransaction()
         transaction.replace(R.id.root, testFragment)
