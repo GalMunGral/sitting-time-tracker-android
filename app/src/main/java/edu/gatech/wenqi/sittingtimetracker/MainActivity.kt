@@ -1,29 +1,32 @@
 package edu.gatech.wenqi.sittingtimetracker
 
-import android.content.BroadcastReceiver
-import android.content.Context
 import android.content.Intent
-import android.content.IntentFilter
 import android.os.Bundle
-import android.support.v4.content.LocalBroadcastManager
-import android.support.v7.app.AppCompatActivity
-import kotlinx.android.synthetic.main.activity_main.*
+import android.support.v4.app.FragmentActivity
+import android.support.v4.app.FragmentManager
+import android.support.v4.app.FragmentTransaction
+import com.android.volley.RequestQueue
+import com.android.volley.toolbox.Volley
 
-class MainActivity: AppCompatActivity() {
 
-    private  val receiver: BroadcastReceiver = object: BroadcastReceiver() {
-        override fun onReceive(context: Context?, intent: Intent?) {
-            textView.text = intent?.getStringExtra("dir")
-        }
-    }
+class MainActivity: FragmentActivity() {
+
+    lateinit var requestQueue: RequestQueue
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         this.setContentView(R.layout.activity_main)
-        LocalBroadcastManager.getInstance(this).registerReceiver(this.receiver, IntentFilter("MY_ACTION"))
+        this.requestQueue = Volley.newRequestQueue(this)
+
+        val transaction = supportFragmentManager.beginTransaction()
+        val loginFragment = LoginFragment()
+        transaction.add(R.id.root, loginFragment)
+        transaction.commit()
+
         Intent(this, SensorService::class.java).also {
             startService(it)
         }
+
     }
 
     override fun onDestroy() {
@@ -32,4 +35,13 @@ class MainActivity: AppCompatActivity() {
             stopService(it)
         }
     }
+
+    fun onLoginSuccess() {
+        val testFragment = TestFragment()
+        val transaction = supportFragmentManager.beginTransaction()
+        transaction.replace(R.id.root, testFragment)
+        transaction.addToBackStack("test")
+        transaction.commit()
+    }
+
 }
