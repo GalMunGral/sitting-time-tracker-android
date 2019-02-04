@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentTransaction
 import com.android.volley.RequestQueue
 import com.android.volley.toolbox.Volley
+import kotlinx.android.synthetic.main.activity_main.*
 
 
 class MainActivity: FragmentActivity() {
@@ -19,15 +20,31 @@ class MainActivity: FragmentActivity() {
         this.setContentView(R.layout.activity_main)
         this.requestQueue = Volley.newRequestQueue(this)
 
+        // Start monitoring
+        Intent(this, SensorService::class.java).also {
+            startService(it)
+        }
+
         val transaction = supportFragmentManager.beginTransaction()
         val loginFragment = LoginFragment()
         transaction.add(R.id.root, loginFragment)
         transaction.commit()
 
-        Intent(this, SensorService::class.java).also {
-            startService(it)
-        }
 
+        navigationView.setNavigationItemSelectedListener {
+            it.isChecked = true
+            drawerLayout.closeDrawers()
+            val transaction = supportFragmentManager.beginTransaction()
+            if (it.title == getString(R.string.main)) {
+                val testFragment = TestFragment()
+                transaction.replace(R.id.root, testFragment)
+            } else if (it.title == getString(R.string.history)) {
+                val historyFragment = HistoryFragment()
+                transaction.replace(R.id.root, historyFragment)
+            }
+            transaction.commit()
+            true
+        }
     }
 
     override fun onDestroy() {
