@@ -33,7 +33,9 @@ class HistoryFragment : Fragment() {
             override fun onPageFinished(view: WebView?, url: String?) {
                 super.onPageFinished(view, url)
                 Timer("hideProgress", false).schedule(2000) {
-                    progressBar.visibility = View.GONE
+                    activity?.runOnUiThread {
+                        progressBar.visibility = View.GONE
+                    }
                 }
             }
         }
