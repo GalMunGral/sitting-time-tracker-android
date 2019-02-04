@@ -45,6 +45,8 @@ class MainActivity: FragmentActivity() {
                     val historyFragment = HistoryFragment()
                     transaction.replace(R.id.root, historyFragment)
                 }
+//                supportFragmentManager.popBackStack()
+                transaction.addToBackStack("test")
                 transaction.commit()
                 true
             }
