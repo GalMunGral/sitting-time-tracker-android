@@ -3,4 +3,5 @@
     <string name="nothing">Nothing</string>
     <string name="main">Main</string>
     <string name="history">History</string>
+    <string name="server_ip">128.61.29.253</string>
 </resources>

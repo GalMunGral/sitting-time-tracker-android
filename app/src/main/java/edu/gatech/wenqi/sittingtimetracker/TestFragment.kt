@@ -11,13 +11,11 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
 import kotlinx.android.synthetic.main.fragment_test.*
 import org.json.JSONObject
-import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -36,7 +34,7 @@ class TestFragment : Fragment() {
                 val endString = formatter.format(Date())
                 val token = (activity as MainActivity).token!!
                 Log.i("TEST", "start:$startString, end:$endString")
-                val request = JsonObjectRequest(Request.Method.POST, "http://128.61.29.253:8080/record?token=$token", JSONObject("""{
+                val request = JsonObjectRequest(Request.Method.POST, "http://${getString(R.string.server_ip)}:8080/record?token=$token", JSONObject("""{
                     "start": "$startString",
                     "end": "$endString"
                 }""".trimIndent()), Response.Listener { json ->

@@ -26,7 +26,7 @@ class LoginFragment : Fragment() {
 
             val username = usernameInput.text.toString()
             val password = passwordInput.text.toString()
-            val request = JsonObjectRequest(Request.Method.POST, "http://128.61.29.253:8080/register", JSONObject("""{
+            val request = JsonObjectRequest(Request.Method.POST, "http://${getString(R.string.server_ip)}:8080/register", JSONObject("""{
                 "username": "$username",
                 "password": "$password"
             }""".trimIndent()), Response.Listener { json ->
@@ -43,7 +43,7 @@ class LoginFragment : Fragment() {
         loginButton.setOnClickListener {
             val username = usernameInput.text.toString()
             val password = passwordInput.text.toString()
-            val request = JsonObjectRequest(Request.Method.POST, "http://128.61.29.253:8080/login", JSONObject("""{
+            val request = JsonObjectRequest(Request.Method.POST, "http://${getString(R.string.server_ip)}:8080/login", JSONObject("""{
                 "username": "$username",
                 "password": "$password"
             }""".trimIndent()), Response.Listener { json ->
