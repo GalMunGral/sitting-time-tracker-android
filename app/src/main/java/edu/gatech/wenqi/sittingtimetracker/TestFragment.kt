@@ -34,7 +34,7 @@ class TestFragment : Fragment() {
                 val endString = formatter.format(Date())
                 val token = (activity as MainActivity).token!!
                 Log.i("TEST", "start:$startString, end:$endString")
-                val request = JsonObjectRequest(Request.Method.POST, "http://${getString(R.string.server_ip)}:8080/record?token=$token", JSONObject("""{
+                val request = JsonObjectRequest(Request.Method.POST, "http://${getString(R.string.server_ip)}/record?token=$token", JSONObject("""{
                     "start": "$startString",
                     "end": "$endString"
                 }""".trimIndent()), Response.Listener { json ->

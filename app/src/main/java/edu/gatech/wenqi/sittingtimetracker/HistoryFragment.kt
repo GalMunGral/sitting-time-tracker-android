@@ -42,6 +42,6 @@ class HistoryFragment : Fragment() {
 
         webView.settings.javaScriptEnabled = true
         webView.isVerticalScrollBarEnabled = false
-        webView.loadUrl("http://${getString(R.string.server_ip)}:8080/?token=${(activity as MainActivity).token}")
+        webView.loadUrl("http://${getString(R.string.server_ip)}/?token=${(activity as MainActivity).token}")
     }
 }
